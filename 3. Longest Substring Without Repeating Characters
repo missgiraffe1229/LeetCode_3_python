@@ -34,3 +34,38 @@ class Solution:
                 if d[s[left]] == 0: del d[s[left]]
                 left += 1
         return res
+
+
+
+暴力解法：
+看了一个教程，但是觉得没什么必要用set来做这件事，并不是一个好的解法但是非常容易被理解
+
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        n = len(s)
+        if n == 0:
+            return 0
+        if n == 1:
+            return 1
+        ans = 0
+        mset = set()
+      
+        for i in range(n):
+            if s[i] not in mset:
+                mset.add(s[i])
+                ans = max(ans, mset.__len__())
+                for j in range(i + 1, n):
+                    if s[j] not in mset:
+                        mset.add(s[j])
+                        ans = max(ans, mset.__len__())
+                    else:
+                        mset.clear()
+                        break
+            else:
+                mset.clear()
+        return ans
+            
