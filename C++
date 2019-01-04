@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int len = s.size();
+        int ans = 0;
+        int start = -1;
+        vector<int> v(256, -1);
+        
+        for(int i = 0; i < len; i++)
+        {
+            if(v[s[i]] > start)
+                start = v[s[i]];
+            v[s[i]] = i;
+            ans = max(ans, i - start);
+        }
+        return ans;
+    }
+};
+
+
+这题卡了好久，这是遇见的最好的解法，滑动窗口法。
+
+用v数组记录字母出现的位置，start指向本次查找子串的第一个字符的前一个字符（这个start位置的字符就是上次子串查找中，重复出现的那个字符）。
+
+在遍历时，
+
+1. 如果字符s[i]的位置v[s[i]]比start小，那么表明，在start之后的遍历过程中，s[i]还没有出现过，此时重新设置字符s[i]的位置v[s[i]] = i，继续遍历下一个字母；
+
+2. 如果字符s[i]的位置v[s[i]]比start大，那么表明，在start之后的遍历过程中，s[i]已经出现过了，此时将start移动到v[s[i]]位置，并重新设置字符s[i]的位置v[s[i]] = i,继续遍历下一个字母。
